@@ -1,8 +1,60 @@
 import { PrismaClient } from "@prisma/client";
-import { hashPassword } from "../../helpers/helpers.js";
+import { hashPassword, verifyPassword} from "../../helpers/helpers.js";
+
+
 const prisma = new PrismaClient();
 
 class AccountController {
+  static async loginHandler(request, response) {
+    const {email, password} = request.body;
+
+    try {
+      //check if inputted
+      if (!email || !password) throw {code: 'inputError'};
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email
+        }
+      })
+
+      if (!user || !verifyPassword(password, user.password)) throw {code: 'invalidCred'};
+
+      const payload = {
+        email,
+        userId: user.id
+      }
+
+      const token = request.jwt.sign(payload);
+
+      response.setCookie('access_token', token, {
+        path: '/',
+        httpOnly: true,
+        secure: true
+      })
+
+      response.code(200).send({
+        message: 'Login successful'
+      })
+
+
+    } catch (error) {
+       if (error.code === "inputError") {
+         response.code(400).send({
+           message: "Email/password required",
+         });
+       } else if (error.code === 'invalidCred') {
+          response.code(401).send({
+            message: "Invalid email/password",
+          });
+       } else {
+         response.code(500).send({
+           message: "Internal Server Error",
+         });
+       }
+    }
+  }
+
   static async registerUserHandler(request, response) {
     const {name, email, password} = request.body;
     try {

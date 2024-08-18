@@ -16,8 +16,11 @@
     "prisma": "^5.18.0"
   },
   "dependencies": {
+    "@fastify/cookie": "^9.3.1",
+    "@fastify/jwt": "^8.0.1",
     "@prisma/client": "^5.18.0",
     "bcrypt": "^5.1.1",
-    "fastify": "^4.28.1"
+    "fastify": "^4.28.1",
+    "jsonwebtoken": "^9.0.2"
   }
 }
