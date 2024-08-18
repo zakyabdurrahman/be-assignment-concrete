@@ -26,8 +26,10 @@ app.decorate('authenticate', async (req, res) => {
     }
 
     const decoded = await req.jwt.verify(token);
+    //check if user exist
+    
     req.user = decoded;
-    console.log(decoded, 'decoded');
+    
     
     } catch (error) {
       console.log(error);

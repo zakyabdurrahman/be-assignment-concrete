@@ -11,3 +11,5 @@ list of available endpoints:
 - `POST /register`  
 - `POST /login`  
 - `POST /`  
+- `GET /`  
+

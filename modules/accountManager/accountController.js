@@ -91,15 +91,49 @@ class AccountController {
   }
 
   static async createAccountHandler(request, response) {
-    const {type, currency} = request.body;
+    const {type, currency, amount} = request.body;
 
     try {
       console.log(request.user);
+      const newAccount = await prisma.account.create({
+        data: {
+          UserId: request.user.userId,
+          currency: currency,
+          type,
+          amount
+        }
+      })
       
       response.status(200).send({
-        message: 'user data',
-        data: request.user
+        message: 'Successfully create new Account',
+        data: newAccount
       })
+    } catch (error) {
+      response.code(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  }
+
+  static async getAllUserAccounts(request, response) {
+    try {
+      const {userId} = request.user;
+
+      const user = await prisma.user.findUnique({
+        include: {
+          accounts: true
+        },
+        where: {
+          id: userId
+        }
+      })
+
+      response.code(200).send({
+        message: "Success get accounts",
+        data: user.accounts
+      })
+
+
     } catch (error) {
       response.code(500).send({
         message: "Internal Server Error",
