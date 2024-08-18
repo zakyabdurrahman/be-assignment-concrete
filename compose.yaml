@@ -1,7 +1,10 @@
 version: '4.26'
 services:
+  
   postgres:
     image: postgres:16.4-alpine
+    networks:
+      - fin-app
     restart: always
     environment:
       - POSTGRES_USER=postgres        # Username for your postgres datbase
@@ -10,6 +13,25 @@ services:
       - '8001:5432' # the first is port for access from the local machine, second for access from a docker container
     volumes: 
       - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U postgres -d postgres'"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 5s  
+  api:
+    depends_on: 
+      postgres:
+        condition: service_healthy
+    image: api-service
+    build: .
+    ports: 
+      - '4000:4000'
+    networks:
+      - fin-app
+networks:
+  fin-app: 
+    driver: bridge
 volumes:
   db:
     driver: local

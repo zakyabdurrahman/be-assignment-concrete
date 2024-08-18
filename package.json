@@ -4,7 +4,8 @@
   "description": "Build 2 Backend services which manages user’s accounts and transactions (send/withdraw).",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx prisma migrate dev && node app.js"
   },
   "type": "module",
   "keywords": [],
