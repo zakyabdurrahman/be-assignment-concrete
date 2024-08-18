@@ -30,18 +30,16 @@ model Account {
   Owner User @relation(fields: [UserId], references: [id])
   amount Int @default(0)
   currency String @default("USD")
-  outgoingTransactions Transaction[] @relation("sender")
-  incomingTransaction Transaction[] @relation("receiver")
+  history Transaction[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model Transaction {
   id Int @id @default(autoincrement())
-  SenderId Int
-  sender Account @relation(name: "sender", fields: [SenderId], references: [id])
-  ReceiverId Int
-  receiver Account @relation(name: "receiver", fields: [ReceiverId], references: [id])
+  type String
+  AccountId Int
+  account Account @relation(fields: [AccountId], references: [id])
   recurring Boolean @default(false)
   interval Int @default(0)
   amount Int

@@ -26,8 +26,8 @@ CREATE TABLE "Account" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" SERIAL NOT NULL,
-    "SenderId" INTEGER NOT NULL,
-    "ReceiverId" INTEGER NOT NULL,
+    "type" TEXT NOT NULL,
+    "AccountId" INTEGER NOT NULL,
     "recurring" BOOLEAN NOT NULL DEFAULT false,
     "interval" INTEGER NOT NULL DEFAULT 0,
     "amount" INTEGER NOT NULL,
@@ -44,7 +44,4 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 ALTER TABLE "Account" ADD CONSTRAINT "Account_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_SenderId_fkey" FOREIGN KEY ("SenderId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_ReceiverId_fkey" FOREIGN KEY ("ReceiverId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_AccountId_fkey" FOREIGN KEY ("AccountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

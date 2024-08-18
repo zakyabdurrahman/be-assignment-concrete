@@ -2,6 +2,7 @@ import fastify from "fastify"
 import accountRoutes from './modules/accountManager/accountRoutes.js'
 import fastifyCookie from "@fastify/cookie"
 import fastifyJwt from "@fastify/jwt";
+import paymentRoutes from "./modules/paymentManager/paymentRoutes.js";
 
 const app = fastify({
     logger: true
@@ -50,6 +51,7 @@ app.register(fastifyCookie, {
 
 //setup services
 app.register(accountRoutes, {prefix: 'api/account'})
+app.register(paymentRoutes, {prefix: 'api/payment'})
 
 //running
 app.listen({port: 4000, host: '0.0.0.0'}, (err, address) => {

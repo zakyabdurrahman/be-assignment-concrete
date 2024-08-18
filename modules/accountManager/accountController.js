@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+
 import { hashPassword, verifyPassword} from "../../helpers/helpers.js";
-
-
-const prisma = new PrismaClient();
+import prisma from "../../config/connection.js";
 
 class AccountController {
   static async loginHandler(request, response) {
@@ -91,8 +89,8 @@ class AccountController {
   }
 
   static async createAccountHandler(request, response) {
-    const {type, currency, amount} = request.body;
-
+    const { type, currency, amount } = request.body;
+    
     try {
       console.log(request.user);
       const newAccount = await prisma.account.create({
@@ -100,14 +98,14 @@ class AccountController {
           UserId: request.user.userId,
           currency: currency,
           type,
-          amount
-        }
-      })
-      
+          amount,
+        },
+      });
+
       response.status(200).send({
-        message: 'Successfully create new Account',
-        data: newAccount
-      })
+        message: "Successfully create new Account",
+        data: newAccount,
+      });
     } catch (error) {
       response.code(500).send({
         message: "Internal Server Error",
