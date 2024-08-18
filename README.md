@@ -17,3 +17,4 @@ list of available endpoints:
 url: `http://localhost:4000/api/payment`  
 list of available endpoints:  
 - `POST /send`  
+- `POST /recurring`  
