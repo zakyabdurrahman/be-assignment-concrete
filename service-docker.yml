@@ -1,0 +1,15 @@
+version: '4.26'
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres        # Username for your postgres datbase
+      - POSTGRES_PASSWORD=postgres    # Password for your postgres user
+    ports:
+      - '8001:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local

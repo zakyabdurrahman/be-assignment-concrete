@@ -1,0 +1,15 @@
+{
+  "name": "be-assignment-concrete",
+  "version": "1.0.0",
+  "description": "Build 2 Backend services which manages user’s accounts and transactions (send/withdraw).",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.18.0"
+  }
+}
