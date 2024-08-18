@@ -10,3 +10,4 @@ url: `http://localhost:4000/api/account`
 list of available endpoints:  
 - `POST /register`  
 - `POST /login`  
+- `POST /`  

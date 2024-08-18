@@ -89,6 +89,23 @@ class AccountController {
     }
     
   }
+
+  static async createAccountHandler(request, response) {
+    const {type, currency} = request.body;
+
+    try {
+      console.log(request.user);
+      
+      response.status(200).send({
+        message: 'user data',
+        data: request.user
+      })
+    } catch (error) {
+      response.code(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  }
 }
 
 export default AccountController;

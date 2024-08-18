@@ -17,6 +17,27 @@ app.addHook('preHandler', (req, res, next) => {
   return next();
 })
 
+//setup auth
+app.decorate('authenticate', async (req, res) => {
+  const token = req.cookies.access_token;
+  try {
+    if (!token) {
+      return res.status(401).send({ message: "Please login first" });
+    }
+
+    const decoded = await req.jwt.verify(token);
+    req.user = decoded;
+    console.log(decoded, 'decoded');
+    
+    } catch (error) {
+      console.log(error);
+      res.status(401).send({message: "Invalid token"})
+    }
+    
+    
+  }
+)
+
 
 //setup cookie
 app.register(fastifyCookie, {
