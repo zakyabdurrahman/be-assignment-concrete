@@ -82,6 +82,52 @@ class PaymentController {
       });
     }
   }
+
+  static async withdrawHandler(request, response) {
+    const {destinationAccount, amount} = request.body;
+    let transaction = null;
+
+    try {
+      await prisma.account.update({
+        where: {
+          id: destinationAccount,
+        },
+        data: {
+          amount: {
+            decrement: amount,
+          },
+        }
+      })
+
+      transaction = await prisma.transaction.create({
+        data: {
+          type: "withdrawal",
+          AccountId: destinationAccount,
+          amount: amount,
+        }
+      })
+     
+        //add transaction record
+       
+
+     
+      await processTransaction(request.body);
+
+
+      response.code(200).send({
+        message: "suceess withdraw from account",
+        data: transaction
+      })
+
+      
+    } catch (error) {
+      console.log(error);
+
+      response.code(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  }
 }
 
 export default PaymentController

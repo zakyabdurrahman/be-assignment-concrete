@@ -12,9 +12,11 @@ list of available endpoints:
 - `POST /login`  
 - `POST /`  
 - `GET /`  
+- `GET /transactions/:accountId`
 
 ### Payment Manager Endpoints  
 url: `http://localhost:4000/api/payment`  
 list of available endpoints:  
 - `POST /send`  
 - `POST /recurring`  
+- `POST /withdraw`  

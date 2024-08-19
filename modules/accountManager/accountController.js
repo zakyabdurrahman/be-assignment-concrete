@@ -138,6 +138,29 @@ class AccountController {
       });
     }
   }
+
+  static async getAccountTransactions(request, response) {
+    const {accountId} = request.params;
+
+    try {
+      const transactions = await prisma.transaction.findMany({
+        where: {
+          AccountId: Number(accountId)
+        }
+      })
+
+      response.code(200).send({
+        message: "Success get transactions",
+        data: transactions
+      })
+    } catch (error) {
+      console.log(error);
+      
+      response.code(500).send({
+        message: "Internal Server Error",
+      });
+    }
+  }
 }
 
 export default AccountController;
