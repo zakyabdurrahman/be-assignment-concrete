@@ -5,6 +5,7 @@ import fastifyJwt from "@fastify/jwt";
 import paymentRoutes from "./modules/paymentManager/paymentRoutes.js";
 import swagger from "@fastify/swagger";
 import swaggerUI from "@fastify/swagger-ui";
+import prisma from "./config/connection.js";
 
 const app = fastify({
     logger: true
@@ -60,8 +61,18 @@ app.decorate('authenticate', async (req, res) => {
       return res.status(401).send({ message: "Please login first" });
     }
 
+   
+
     const decoded = await req.jwt.verify(token);
     //check if user exist
+
+    const user = await prisma.user.findUnique({
+      where: {email: decoded.email},
+    });
+
+    if (!user) {
+      return res.status(401).send({ message: "Please login first" });
+    }
     
     req.user = decoded;
     
