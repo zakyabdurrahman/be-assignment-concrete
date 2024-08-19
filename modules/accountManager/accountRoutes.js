@@ -140,7 +140,51 @@ async function accountRoutes(app) {
     },
     AccountController.getAllUserAccounts
   );
-  app.get("/transactions/:accountId", { preHandler: [app.authenticate] }, AccountController.getAccountTransactions);
+  app.get(
+    "/transactions/:accountId",
+    {
+      preHandler: [app.authenticate],
+      schema: {
+        description: "Get all transactions of an account",
+        tags: ["account"],
+        summary: "This will fetch all of an account's transaction",
+        params: {
+          type: "object",
+          properties: {
+            accountId: {
+              type: 'string',
+              description: "Account ID"
+            }
+          }
+        },
+
+        response: {
+          200: {
+            description: "Successful response",
+            type: "object",
+            properties: {
+              message: { type: "string" },
+              data: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    id: { type: "integer" },
+                    AccountId: { type: "integer" },
+                    type: { type: "string" },
+                    amount: { type: "integer" },
+                    createdAt: { type: "string" },
+                    updatedAt: { type: "string" },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    AccountController.getAccountTransactions
+  );
 }
 
 export default accountRoutes
