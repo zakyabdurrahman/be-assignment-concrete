@@ -3,9 +3,43 @@ import accountRoutes from './modules/accountManager/accountRoutes.js'
 import fastifyCookie from "@fastify/cookie"
 import fastifyJwt from "@fastify/jwt";
 import paymentRoutes from "./modules/paymentManager/paymentRoutes.js";
+import swagger from "@fastify/swagger";
+import swaggerUI from "@fastify/swagger-ui";
 
 const app = fastify({
     logger: true
+})
+
+
+//setup swagger
+app.register(swagger, {
+  openapi: {
+    openapi: "3.0.0",
+    info: {
+      title: "Concrete AI Take Home Assignment",
+      description:
+        "A simple financial service backend made with fastify and prisma",
+      version: "0.1.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:4000/api",
+        description: "Development server",
+      },
+    ],
+    tags: [
+      { name: "account", description: "Account Manager endpoints" },
+      { name: "payment", description: "Payment Manager related endpoints" },
+    ],
+    
+
+    
+  },
+});
+
+app.register(swaggerUI, {
+  routePrefix: '/docs',
+  staticCSP: true,
 })
 
 //setup jwt plugin
@@ -60,4 +94,8 @@ app.listen({port: 4000, host: '0.0.0.0'}, (err, address) => {
         process.exit(1)
     } 
 })
+
+await app.ready();
+app.swagger();
+
 

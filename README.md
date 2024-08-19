@@ -5,6 +5,12 @@ I implemented the application using PostgreSQL for database, Prisma ORM, and Fas
 ![](be_erd.drawio.png)  
   
 ## API Documentations  
+### Authentication Scheme  
+The authentication used in this application is cookie auth and after login the token will be saved on cookie. If you are testing this on postman or swagger you just need to register, then login once and then the cookie for authentication is automatically set  
+
+### Swagger Docs  
+`http://localhost:4000/docs`  
+ 
 ### Account Manager Endpoints  
 url: `http://localhost:4000/api/account`  
 list of available endpoints:  
